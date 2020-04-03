@@ -7,7 +7,7 @@ public class Solver {
 	private Grille g;
 	private ArrayList<Pions> pions;
 	private Pions robot;
-	private ArrayList<Pions> robots;
+	private ArrayList<Pions> robots = new ArrayList<>();;
 	
 	public Solver(Grille g, ArrayList<Pions> p, Pions r) {
 		this.g = g;
