@@ -3,9 +3,10 @@ package projetS4;
 public class Grille {
 	// ATTRIBUTS
 	protected Case [][] grille;
-	protected int [][] carre;
+	private int [][] carre;
 	protected int width, height;
-	protected String Objectif;
+	private String objColor;
+	private int [] objPos;
 
 	public Grille() {
 		this.width = this.height = 16;
@@ -31,12 +32,21 @@ public class Grille {
 		return this.carre;
 	}
 	
-	public void setObj(String obj){
-		this.Objectif = obj;
+	public String getObjColor() {
+		return this.objColor;
 	}
 	
-	public String getObj() {
-		return this.Objectif;
+	public int [] getObjPos() {
+		return this.objPos;
+	}
+	
+	//SETTER
+	public void setObjColor(String color){
+		this.objColor = color;
+	}
+	
+	public void setObjPos(int [] pos) {
+		this.objPos = pos;
 	}
 	
 	/**

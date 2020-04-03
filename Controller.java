@@ -25,7 +25,7 @@
 		//INITIALISE LE ROBOT (PAR DEFAUT : meme couleur que la cible)
 		private void setRobot() {
 			for(Pions p : this.pions) {
-				if(p.getType() == "robot" && g.getObj() == p.getColor())
+				if(p.getType() == "robot" && g.getObjColor() == p.getColor())
 					this.robot = p;
 			}
 		}
@@ -37,71 +37,6 @@
 					this.gameOver = true;
 				}
 			}
-		}
-
-		public void algoPlay(ArrayList<String> finalPathString){
-			try{
-				for(String s : finalPathString){
-					//Thread.sleep(500);
-					//System.out.println("Color : " + this.robot.getColor() + ", Move : " + s);
-					switch(s){
-						case "haut": 
-							this.robot.moveUp(g);
-							break;
-						case "bas": 
-							this.robot.moveDown(g);
-							break;
-						case "gauche":
-							this.robot.moveLeft(g);
-							break;
-						case "droite":
-							this.robot.moveRight(g);
-							break;					
-						default:
-							break;
-					}
-					//draw.update();
-				}
-			} catch(Exception ex){
-				System.err.println();
-			}
-		}
-
-		public void solve(){
-			ArrayList<String> finalPathString = null;
-			Pions robotTmp = null;
-			Case startCase = null;
-			Case endCase = null;
-			String winColor = ""; 
-			for(Pions p : pions){
-				if(p.getType().equals("target") && !p.getColor().equals("black")){ 
-					endCase = p.getCase();
-					winColor = p.getColor();
-				}
-			}
-			for(Pions p : pions){
-				if(p.getType().equals("robot") && p.getColor().equals(winColor)){ 
-					startCase = p.getCase();
-					robotTmp = p;
-					//System.out.println(p.getColor() + ", " + p.toString());
-				}
-			}
-			ArrayList<Pions> pionsTmp = this.pions;
-			robotTmp.setArray(pionsTmp);
-			//A*
-			AlgoritmA algo = new AlgoritmA(this.g, startCase, endCase, robotTmp);
-			algo.AStar();
-			ArrayList<Case> finalPath = algo.getPath();
-			finalPathString = algo.trad(finalPath);
-			if(!finalPathString.isEmpty()){
-				System.out.println("Le solveur a trouve : " + finalPathString);	
-				System.out.println("Realisable en : " + finalPathString.size() + " coups");	
-				this.algoPlay(finalPathString);
-			}
-			else{
-				System.out.println("Le solveur n'a pas trouve de solution en déplacant seulement le robot principal");
-				//this.algoFinal();
-			}			
 		}
 
 		// public void algoFinal(Case startCase, Case endCase){
@@ -196,7 +131,8 @@
 			// SI LA PARTIE N'EST PAS TERMINE
 			if(!this.gameOver) {
 				if(e.getKeyCode() == KeyEvent.VK_S) { // SI "S" PRESSEE ALORS SOLVEUR S ACTIVE
-					this.solve();
+					Solver solver = new Solver(g, pions, robot);
+					solver.solve();
 				}	
 				// JOUE SUIVANT LA TOUCHE
 				try {

@@ -3,8 +3,6 @@ import java.util.Random;
 //import java.util.List;
 //import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.Collections;
-
 public class Setup {
 
 	// ATTRIBUTS
@@ -74,7 +72,7 @@ public class Setup {
 				break;
 		}
 		
-		this.grille.setObj(pion.getColor());
+		this.grille.setObjColor(pion.getColor());
 		this.pions.add(pion);
 
 		for(String color : colors){

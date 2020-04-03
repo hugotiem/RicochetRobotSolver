@@ -43,7 +43,6 @@ public class DrawCase extends JPanel {
 		//DESSINE LA GRILLE
 		super.paintComponent(g);
 		g.drawRect(0, 0, Draw.HEIGHT/16, Draw.WIDTH/16);
-
 		//DESSINE LES PIONS
 		if(!p.isEmpty()) { // SI L'ARRAYLIST DE PIONS N'EST PAS VIDE
 
@@ -59,6 +58,7 @@ public class DrawCase extends JPanel {
 							// DESSINNE LES ROBOTS
 							g.setColor(this.getColor(p.getColor()));
 							g.fillOval(3, 3, Draw.HEIGHT/16-6, Draw.WIDTH/16-6);
+							
 							break;
 						case "target": // DESSINE LA CIBLE
 							g.fillRect(1, 1, Draw.HEIGHT/16, Draw.WIDTH/16);
@@ -71,7 +71,7 @@ public class DrawCase extends JPanel {
 		//DESSINE LES MURS
 		for(int i = 0; i < cases.getMurs().length; i++) {
 			g.setColor(Color.BLACK);
-			if(cases.getMurs()[i]) // SI LE COTE DE LA CASE POSSEDE UN MUR
+			if(cases.getMurs()[i]) { // SI LE COTE DE LA CASE POSSEDE UN MUR
 				switch(i) {
 					case 0: // DESSINE LE MUR DU HAUT
 						g.fillRect(0, 0, Draw.WIDTH/16, 5);
@@ -85,7 +85,9 @@ public class DrawCase extends JPanel {
 					case 3: // DESSINE LE MUR DE GAUCHE
 						g.fillRect(0, 0, 5, Draw.HEIGHT/16);
 				}
+			}
 		}
+		this.repaint();
 	}
 
 }
