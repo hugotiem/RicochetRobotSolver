@@ -5,6 +5,7 @@ import java.util.Collections;
 
 public class AlgoritmA {
 
+	// ATTRIBUTS
 	private Grille g;
 	private Case [][] grille;
 	private ArrayList<Case> openSet,  closedSet, path;
@@ -22,6 +23,119 @@ public class AlgoritmA {
 		this.path = new ArrayList<Case>();
 		this.openSet.add(this.start);
 	} 
+	
+	private void putNb(Case c, int nb, String dir) throws Exception {
+	boolean stop = false;
+	int x = c.getPosition()[0];
+	int y = c.getPosition()[1];
+	while (!stop) {
+		if(dir.equals("up")) {
+			x--;
+			if(this.g.getCase(new int [] {x, y}).getMurs()[0]) {
+				stop = true;
+			}
+		}
+		if(dir.equals("down")) {
+			x++;
+			if(this.g.getCase(new int [] {x, y}).getMurs()[2]) {
+				stop = true;
+			}
+		}
+		if(dir.equals("right")) {
+			y++;
+			if(this.g.getCase(new int [] {x, y}).getMurs()[1]) {
+					stop = true;
+			}
+		}
+		if(dir.equals("left")) {
+			y--;
+			if(this.g.getCase(new int [] {x, y}).getMurs()[3]) {
+				stop = true;
+			}
+		}
+		if(this.g.getCase(new int [] {x, y}).getNumber() == 0)
+			this.g.getCase(new int [] {x, y}).setNumber(nb);
+		}
+	}
+	
+	public void addNumberOne() throws Exception {
+		Case c = this.g.getCase(this.g.getObjPos());
+		if(!c.getMurs()[0]) { 
+			this.putNb(c, 1, "up");
+		}
+		if(!c.getMurs()[2]) {
+			this.putNb(c, 1, "down");
+		} 
+		if(!c.getMurs()[1]) {
+			this.putNb(c, 1, "right");
+		}
+		if(!c.getMurs()[3]) {
+			this.putNb(c, 1, "left");
+		}
+	}
+	
+	public void addNumberTwo() throws Exception {
+		for(int i = 0; i < this.grille.length; i++) {
+			for(int j = 0; j < this.grille[i].length; j++) {
+				if(this.grille[i][j].getNumber() == 1) {
+					if(i == this.g.getObjPos()[0]) {
+						this.putNb(this.grille[i][j], 2, "up");
+						this.putNb(this.grille[i][j], 2, "down");
+					}
+					else if (j == this.g.getObjPos()[1]) {
+						this.putNb(this.grille[i][j], 2, "right");
+						this.putNb(this.grille[i][j], 2, "left");
+					}
+				}
+			}
+		}
+	}
+	
+	public void addNumberThree() throws Exception {
+		for(int i = 0; i < this.grille.length; i++) {
+			for(int j = 0; j < this.grille[i].length; j++) {
+				if(this.grille[i][j].getNumber() == 2) {
+					if(j + 1 < this.grille.length && !this.grille[i][j].getMurs()[1])
+						this.putNb(this.grille[i][j], 3, "right");
+					if(j - 1 >= 0 && !this.grille[i][j].getMurs()[3])
+						this.putNb(this.grille[i][j], 3, "left");
+					if(i - 1 >= 0 && !this.grille[i][j].getMurs()[0]) 
+						this.putNb(this.grille[i][j], 3, "up");
+					if(i + 1 < this.grille.length && !this.grille[i][j].getMurs()[2])
+						this.putNb(this.grille[i][j], 3, "down");
+				}			
+			}
+		}
+	}
+	
+	public void addNumberFour() {
+		for (int i = 0; i < this.grille.length; i++) {
+			for (int j = 0; j < this.grille[i].length; j++) {
+				if(this.grille[i][j].getNumber() == 0 && !this.grille[i][j].equals(this.g.getObjPos())) {
+					this.grille[i][j].setNumber(4);
+				}
+			}
+		}
+	}
+	
+	public void addAdvNumber() {
+		try {
+			this.addNumberOne();
+			this.addNumberTwo();
+			this.addNumberThree();
+			this.addNumberFour();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		for(int i = 0; i < this.grille.length; i++) {
+			for(int j = 0; j < this.grille[i].length; j++) {
+				System.out.print(this.grille[i][j].getNumber() + " ");
+			}
+			System.out.println();
+		}
+	}
+
 	
 	public ArrayList<Case> getPath() {
 		return this.path;
@@ -63,7 +177,7 @@ public class AlgoritmA {
 					res.add("droite");
 				}
 				if(y2 < y && x == x2){
-					res.add("gauche");
+					res.add("gauche"); 
 				}
 			}
 			int finalSize = res.size();
@@ -114,7 +228,7 @@ public class AlgoritmA {
 			}
 			this.openSet.remove(current);
 			this.closedSet.add(current); 
-			ArrayList<Case> neighbors = current.getNeighbors(g, p);
+			ArrayList<Case> neighbors = current.getNeighbors(g, p); 
 			for (int i = 0; i < neighbors.size(); i++) {
 				
 				Case neighbor = neighbors.get(i);
@@ -136,118 +250,8 @@ public class AlgoritmA {
 			}
 		}	
 		this.p.setPosition(this.start.getPosition());
+		//this.addAdvNumber();
 	}
 }
 
 
-//private void putNb(Case c, int nb, String dir) throws Exception {
-//	boolean stop = false;
-//	int x = c.getPosition()[0];
-//	int y = c.getPosition()[1];
-//	while (!stop) {
-//		if(dir.equals("up")) {
-//			x--;
-//			if(this.g.getCase(new int [] {x, y}).getMurs()[0]) {
-//				stop = true;
-//			}
-//		}
-//		if(dir.equals("down")) {
-//			x++;
-//			if(this.g.getCase(new int [] {x, y}).getMurs()[2]) {
-//				stop = true;
-//			}
-//		}
-//		if(dir.equals("right")) {
-//			y++;
-//			if(this.g.getCase(new int [] {x, y}).getMurs()[1]) {
-//				stop = true;
-//			}
-//		}
-//		if(dir.equals("left")) {
-//			y--;
-//			if(this.g.getCase(new int [] {x, y}).getMurs()[3]) {
-//				stop = true;
-//			}
-//		}
-//		if(this.g.getCase(new int [] {x, y}).getNumber() == 0)
-//			this.g.getCase(new int [] {x, y}).setNumber(nb);
-//	}
-//}
-//
-//public void addNumberOne() throws Exception {
-//	Case c = this.g.getCase(this.g.getObjPos());
-//	if(!c.getMurs()[0]) { 
-//		this.putNb(c, 1, "up");
-//	}
-//	if(!c.getMurs()[2]) {
-//		this.putNb(c, 1, "down");
-//	} 
-//	if(!c.getMurs()[1]) {
-//		this.putNb(c, 1, "right");
-//	}
-//	if(!c.getMurs()[3]) {
-//		this.putNb(c, 1, "left");
-//	}
-//}
-//
-//public void addNumberTwo() throws Exception {
-//	for(int i = 0; i < this.grille.length; i++) {
-//		for(int j = 0; j < this.grille[i].length; j++) {
-//			if(this.grille[i][j].getNumber() == 1) {
-//				if(i == this.g.getObjPos()[0]) {
-//					this.putNb(this.grille[i][j], 2, "up");
-//					this.putNb(this.grille[i][j], 2, "down");
-//				}
-//				else if (j == this.g.getObjPos()[1]) {
-//					this.putNb(this.grille[i][j], 2, "right");
-//					this.putNb(this.grille[i][j], 2, "left");
-//				}
-//			}
-//		}
-//	}
-//}
-//
-//public void addNumberThree() throws Exception {
-//	for(int i = 0; i < this.grille.length; i++) {
-//		for(int j = 0; j < this.grille[i].length; j++) {
-//			if(this.grille[i][j].getNumber() == 2) {
-//				if(j + 1 < this.grille.length && !this.grille[i][j].getMurs()[1])
-//					this.putNb(this.grille[i][j], 3, "right");
-//				if(j - 1 >= 0 && !this.grille[i][j].getMurs()[3])
-//					this.putNb(this.grille[i][j], 3, "left");
-//				if(i - 1 >= 0 && !this.grille[i][j].getMurs()[0]) 
-//					this.putNb(this.grille[i][j], 3, "up");
-//				if(i + 1 < this.grille.length && !this.grille[i][j].getMurs()[2])
-//					this.putNb(this.grille[i][j], 3, "down");
-//			}			
-//		}
-//	}
-//}
-//
-//public void addNumberFour() {
-//	for (int i = 0; i < this.grille.length; i++) {
-//		for (int j = 0; j < this.grille[i].length; j++) {
-//			if(this.grille[i][j].getNumber() == 0 && !this.grille[i][j].equals(this.g.getObjPos())) {
-//				this.grille[i][j].setNumber(4);
-//			}
-//		}
-//	}
-//}
-//
-//public void addAdvNumber() {
-//	try {
-//		this.addNumberOne();
-//		this.addNumberTwo();
-//		this.addNumberThree();
-//		this.addNumberFour();
-//	} catch (Exception e){
-//		e.printStackTrace();
-//	}
-//	
-//	for(int i = 0; i < this.grille.length; i++) {
-//		for(int j = 0; j < this.grille[i].length; j++) {
-//			System.out.print(this.grille[i][j].getNumber() + " ");
-//		}
-//		System.out.println();
-//	}
-//}

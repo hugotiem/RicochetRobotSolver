@@ -9,12 +9,14 @@ public class Case{
 	protected boolean [] murs = {false, false, false, false};
 	private int f, g, h;
 	protected Case previous;
+	private int number;
 
 	public Case(int x, int y) {
 		this.location = new int [] {x, y};
 		this.f = 0;
 		this.g = 0;
 		this.h = 0;
+		this.number = 0;
 	}
 
 	/**** FONCTIONS MODIFICATIONS ATTRIBUTS ****/
@@ -51,6 +53,10 @@ public class Case{
 	public void setH(int h) {
 		this.h = h;
 	}
+	
+	public void setNumber(int nb) {
+		this.number = nb;
+	}
 
 	/**** FONCTIONS OBTENTION VALEURS ATTRIBUTS ****/
 
@@ -80,6 +86,10 @@ public class Case{
 		
 	public int getH() {
 		return this.h;
+	}
+	
+	public int getNumber() {
+		return this.number;
 	}
 	
 	public ArrayList<Case> getNeighbors(Grille g, Pions p){

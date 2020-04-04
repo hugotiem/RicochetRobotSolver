@@ -73,6 +73,7 @@ public class Setup {
 		}
 		
 		this.grille.setObjColor(pion.getColor());
+		this.grille.setObjPos(pion.getPosition());
 		this.pions.add(pion);
 
 		for(String color : colors){
@@ -96,39 +97,5 @@ public class Setup {
 			System.err.println("ERROR: " + e);
 		}
 		
-		// COPIE LA GRILLE
-		//Grille grilleTmp = new Grille();
-		//ROBOT DE DEPART
-//		Pions robot = null;
-//		//CASE DEPART ET ARRIVEE
-//		Case startCase = null;
-//		Case endCase = null;
-//		String winColor = ""; 
-//		for(Pions p : pions){
-//			if(p.getType().equals("target") && !p.getColor().equals("black")){ 
-//				endCase = p.getCase();
-//				winColor = p.getColor();
-//			}
-//		}
-//		for(Pions p : pions){
-//			if(p.getType().equals("robot") && p.getColor().equals(winColor)){ 
-//				startCase = p.getCase();
-//				robot = p;
-//				System.out.println(p.getColor() + ", " + p.toString());
-//			}
-//		}
-//
-//		ArrayList<Pions> pTmp = this.pions;
-//		robot.setArray(pTmp);
-//		
-//		//A*
-//		// System.out.println(startCase.getPosition()[0] + "," + startCase.getPosition()[1]);
-//		// System.out.println(endCase.getPosition()[0] + "," + endCase.getPosition()[1]);
-//		AlgoritmA algo = new AlgoritmA(grilleTmp, startCase, endCase, robot);
-//		algo.AStar();
-//		ArrayList<Case> finalPath = algo.getPath();
-//		//ArrayList<String> finalPathString = this.trad(finalPath);
-//		//System.out.println(finalPathString);		
 	}
-
 }

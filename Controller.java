@@ -39,38 +39,6 @@
 			}
 		}
 
-		// public void algoFinal(Case startCase, Case endCase){
-		// 	//La case courante et la cible
-		// 	Case current = endCase;
-
-		// 	//On prends les voisins de la case courante
-		// 	Pions tmpP = new Pions(current.getPosition()[0], current.getPosition()[1], "white", "robot");
-		// 	ArrayList<Case> currentNeighbors = current.getNeighbors(this.g, tmpP);
-
-		// 	//Pour chaque case voisine on compte le nombre de mur
-		// 	for(Case neighbor : currentNeighbors){
-		// 		if(neighbor.countWalls() < 2){ //Si il y a 1 mur alors il faut placer un robot sur une case adjacente pour faire obstacle
-		// 			ArrayList<Case> neighborAdjacentTab = neighbor.getAdjacent(this.g, tmpP); //On recupere les cases adjacentes
-		// 			for(Case neighborAdjacent : neighborAdjacentTab){
-		// 				if(neighborAdjacent.countWalls() < 2){ //On regarde si il est possible d'y enmener un robot, ici 1 mur donc non
-		// 					//il faut continuer a chercher les voisins des voisins dont algo recursif
-		// 					this.algoFinal();
-		// 				}
-		// 				else{ //Sinon on peut y amener un robot
-		// 					//On utilise A* sur le robot le plus proche pour faire obstacle
-
-		// 					//On utilise A* sur le robot principal après avoir creer l'obstacle grace a un autre robot
-		// 					this.solve();
-		// 				}
-		// 			}
-		// 		}
-		// 		else{ //une solution est possible
-		// 			//A* sur le robot principal
-		// 			this.solve();
-		// 		}
-		// 	}
-		// }
-
 		@Override
 		public void keyPressed(KeyEvent e) {
 			// SI LA PARTIE N'EST PAS TERMINE
@@ -107,7 +75,7 @@
 				}
 				// AFFICHE LE ROBOT SELECTIONE
 				draw.setWin("   Robot selectionne : Robot " + this.robot.getColor());
-			}		
+			}		 
 			//LANCE UNE NOUVELLE PARTIE
 			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 				// REINITIALISE LE JEU
@@ -131,6 +99,11 @@
 			// SI LA PARTIE N'EST PAS TERMINE
 			if(!this.gameOver) {
 				if(e.getKeyCode() == KeyEvent.VK_S) { // SI "S" PRESSEE ALORS SOLVEUR S ACTIVE
+					for(Pions p : this.pions) {
+						if(p.getType().equals("robot") && p.getColor().equals(this.g.getObjColor())) {
+							this.robot = p;
+						}
+					}
 					Solver solver = new Solver(g, pions, robot);
 					solver.solve();
 				}	
