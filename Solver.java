@@ -54,11 +54,9 @@ public class Solver {
 	 * RESOU LA PARTIE
 	 */
 	
-	private ArrayList<String> chose(ArrayList<Pions> robotsToMove, ArrayList<int []> previous, Pions robotTmp, Case startCase, Case endCase, int detph) {
-		ArrayList<String> currentPath = this.path;
-		ArrayList<String> tmpPath = null;
+	private ArrayList<String> chose(ArrayList<Pions> robotsToMove, ArrayList<int []> previous, Pions robotTmp, Case startCase, Case endCase, int detph, ArrayList<String> currentPath) {
 		try {
-			if(detph < 10000) { //VERIFIE LA PROFONDEUR
+			if(detph < 20) { //VERIFIE LA PROFONDEUR
 				for(Pions current : robotsToMove) {
 					ArrayList<Case> neighbors = this.g.getCase(current.getPosition()).getNeighbors(g, current); //OBTIENT LES CASES VOISINES D'UN PION
 					previous.add(current.getPosition()); //INDIQUE QUE CELUI CI EST PASSE PAR LA
@@ -67,16 +65,11 @@ public class Solver {
 							current.setPosition(neighbor.getPosition());
 							robotTmp.setArray(robotsToMove);//ON INDIQUE LA NOUVELLE POSITION DU ROBOT LORS DU DEPLACEMENT DU ROBOT PRINCIPAL
 							ArrayList<String> neighborPath = this.execAStar(startCase, endCase, robotTmp); // LIST DU PATH DU VOISIN
-							
-							// Je pense que c'est a ce moment la qu'il faut changer le code pour que ca renvoit le bon truc 
-							
-							tmpPath = chose(robotsToMove, previous, robotTmp, startCase, endCase, detph + 1); //EST CENSE RENVOYE LA MEILLEUR SOLUTION
-							if(!neighborPath.isEmpty() && !tmpPath.isEmpty()) { // SI AUCUN DES DEUX N'EST VIDE 'je t'avoue jsp si c'est trop utile dis comme ca)
-								if(neighborPath.size() > tmpPath.size()) {
-									currentPath = tmpPath;
-									this.path = neighborPath;
-								}
+							if((currentPath.size() > neighborPath.size() && !neighborPath.isEmpty()) || currentPath.isEmpty()) {
+								currentPath = neighborPath;
 							}
+							return chose(robotsToMove, previous, robotTmp, startCase, endCase, detph + 1, currentPath); 
+							//return chose(robotsToMove, previous, robotTmp, startCase, endCase, detph + 1, currentPath); 
 						}
 					} 
 				}
@@ -122,7 +115,8 @@ public class Solver {
 		
 		ArrayList<Pions> robotsToMove = this.secondaryPions;
 		ArrayList<int []> previous = new ArrayList<>();
-		finalPathString = chose(robotsToMove, previous, primaryPion, startCase, endCase, this.detph);
+		finalPathString = chose(robotsToMove, previous, primaryPion, startCase, endCase, this.detph, this.path);
+
 
 		System.out.println("Le solveur a trouve : " + finalPathString);	
 		System.out.println("Realisable en : " + finalPathString.size() + " coups");	
