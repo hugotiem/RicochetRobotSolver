@@ -58,17 +58,20 @@ public class Solver {
 		ArrayList<String> currentPath = this.path;
 		ArrayList<String> tmpPath = null;
 		try {
-			if(detph < 10000) {
+			if(detph < 10000) { //VERIFIE LA PROFONDEUR
 				for(Pions current : robotsToMove) {
-					ArrayList<Case> neighbors = this.g.getCase(current.getPosition()).getNeighbors(g, current);
-					previous.add(current.getPosition());
+					ArrayList<Case> neighbors = this.g.getCase(current.getPosition()).getNeighbors(g, current); //OBTIENT LES CASES VOISINES D'UN PION
+					previous.add(current.getPosition()); //INDIQUE QUE CELUI CI EST PASSE PAR LA
 					for(Case neighbor : neighbors) {
-						if(!previous.contains(neighbor.getPosition())) { 
+						if(!previous.contains(neighbor.getPosition())) { // SI LE VOISIN N'EST PAS UNE CASE DDEJA VISITEE
 							current.setPosition(neighbor.getPosition());
-							robotTmp.setArray(robotsToMove);
-							ArrayList<String> neighborPath = this.execAStar(startCase, endCase, robotTmp);
-							tmpPath = chose(robotsToMove, previous, robotTmp, startCase, endCase, detph + 1);
-							if(!neighborPath.isEmpty() && !tmpPath.isEmpty()) {
+							robotTmp.setArray(robotsToMove);//ON INDIQUE LA NOUVELLE POSITION DU ROBOT LORS DU DEPLACEMENT DU ROBOT PRINCIPAL
+							ArrayList<String> neighborPath = this.execAStar(startCase, endCase, robotTmp); // LIST DU PATH DU VOISIN
+							
+							// Je pense que c'est a ce moment la qu'il faut changer le code pour que ca renvoit le bon truc 
+							
+							tmpPath = chose(robotsToMove, previous, robotTmp, startCase, endCase, detph + 1); //EST CENSE RENVOYE LA MEILLEUR SOLUTION
+							if(!neighborPath.isEmpty() && !tmpPath.isEmpty()) { // SI AUCUN DES DEUX N'EST VIDE 'je t'avoue jsp si c'est trop utile dis comme ca)
 								if(neighborPath.size() > tmpPath.size()) {
 									currentPath = tmpPath;
 									this.path = neighborPath;
