@@ -74,14 +74,10 @@ public class Solver {
 									this.path = neighborPath;
 								}
 							}
-							else {
-								currentPath = tmpPath;
-							}
 						}
 					} 
 				}
 			}
-			System.out.println(currentPath.size());
 		} catch (Exception e) {
 			System.err.println("ERROR : " + e);
 		}

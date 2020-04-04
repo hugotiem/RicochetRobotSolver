@@ -224,6 +224,7 @@ public class AlgoritmA {
 			if(current == this.end) {
 				this.setPath(current);
 				System.out.println("Finit, " + counter + " noeuds explores"); 
+				System.out.println(this.getPath().size());
 				break;
 			}
 			this.openSet.remove(current);
