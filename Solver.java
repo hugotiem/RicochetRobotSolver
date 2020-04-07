@@ -12,6 +12,7 @@ public class Solver {
 	private Pions robot;
 	private ArrayList<Pions> secondaryPions = new ArrayList<>();
 	private ArrayList<String> currentPath = new ArrayList<>();
+	private int depth;
 	private Case startCase = null;
 	private Case endCase = null;
 	private Pions primaryPion = null;
@@ -72,53 +73,73 @@ public class Solver {
 	private ArrayList<String> chose(ArrayList<Pions> robotsToMove, ArrayList<Case> did, int depth, ArrayList<String> currentPath, Case previous) {
 		
 		try {
-			if(depth < currentPath.size() - 2 || currentPath.isEmpty()) { //VERIFIE LA PROFONDEUR
-				for(Pions current : robotsToMove) {
-					Case caseTmp = new Case(current.getPosition()[0], current.getPosition()[1]); // CRRER UNE CASE TMP 
-					
-					caseTmp.setColor(current.getColor()); // RECUPERE LA COULEUR DU ROBOT ACTUEL
-					caseTmp.setNumber(depth); // PERMET DE SAVOIR L'ORDE DES COUPS A JOUER GRACE A LA VALEUR DE LA PROFONDEUR
-					caseTmp.previous = previous; // PERMET D'ACCEDER A LA CASE PRECEDENTE PAR LA SUITE
-
-					if(did.isEmpty()) { //SI PREMIER PASSAGE DANS LA BOUCLE
-						did.add(caseTmp);
-					}
-					
-					ArrayList<Case> neighbors = caseTmp.getNeighbors(g, current); //OBTIENT LES CASES VOISINES D'UN PION
-					System.out.println(current.getColor() + " : " + current + "    detph = " + depth + "     " + caseTmp.getColor());
-					
-					for(Case neighbor : neighbors) {
-						int [] tmp = current.getPosition(); // RECUPERE LES COORDONNEES POUR LE REPLACER
+			if(this.g.getCase(this.primaryPion.getPosition()).getNumber() > 1) {
+				if((currentPath.isEmpty() && depth < 5) || (depth < currentPath.size() - this.g.getCase(this.primaryPion.getPosition()).getNumber())) { //VERIFIE LA PROFONDEUR
+					for(Pions current : robotsToMove) {
+						Case caseTmp = new Case(current.getPosition()[0], current.getPosition()[1]); // CRRER UNE CASE TMP 
 						
-						if(!did.contains(neighbor)) { // SI LE VOISIN N'EST PAS UNE CASE DEJA VISITEE
+						caseTmp.setColor(current.getColor()); // RECUPERE LA COULEUR DU ROBOT ACTUEL
+						caseTmp.setNumber(depth); // PERMET DE SAVOIR L'ORDE DES COUPS A JOUER GRACE A LA VALEUR DE LA PROFONDEUR
+						caseTmp.previous = previous; // PERMET D'ACCEDER A LA CASE PRECEDENTE PAR LA SUITE
+	
+						if(did.isEmpty()) { //SI PREMIER PASSAGE DANS LA BOUCLE
+							did.add(caseTmp);
+						}
+						
+						ArrayList<Case> neighbors = caseTmp.getNeighbors(g, current); //OBTIENT LES CASES VOISINES D'UN PION
+						System.out.println(current.getColor() + " : " + current + "    detph = " + depth + "     " + caseTmp.getColor());
+						
+						for(Case neighbor : neighbors) {
+							int [] tmp = current.getPosition(); // RECUPERE LES COORDONNEES POUR LE REPLACER
+							neighbor = new Case(neighbor.getPosition()[0], neighbor.getPosition()[1]);
+							neighbor.setColor(current.getColor());
 							
-							did.add(neighbor); //ON GARDE LA POSITION 
-							current.setPosition(neighbor.getPosition()); // ON DEPLACE LE PION A L'ENDROIT DU VOISIN
-
-							primaryPion.setArray(robotsToMove); //ON INDIQUE LA NOUVELLE POSITION DU ROBOT LORS DU DEPLACEMENT DU ROBOT PRINCIPAL
-							ArrayList<String> neighborPath = this.execAStar(startCase, endCase, primaryPion); // TEST A* APRES DEPLACEMENT 
+							boolean already = false;
 							
-							if((currentPath.size() > neighborPath.size() || currentPath.isEmpty()) && !neighborPath.isEmpty()) { // SI PATH APRES DEPLACEMENT PLUS PETIT
-								currentPath = neighborPath;  
-								neighbor.previous = caseTmp; 
-								neighbor.setColor(current.getColor());
-								neighbor.setNumber(depth + 1);
-								
-								if(neighbor != null) { 
-									this.allPaths = new ArrayList<>();
-									this.allPaths.add(neighbor);
-									while(neighbor.previous != null) {
-										allPaths.add(neighbor.previous);
-										neighbor = neighbor.previous;
-									}
+							for(Case c : did) {
+								if(c.getColor().equals(neighbor.getColor()) && c.equals(neighbor.getPosition()) && c.getNumber() != depth) {
+									already = true;
 								}
 							}
-							currentPath = chose(robotsToMove, did, depth + 1, currentPath, caseTmp); // LANCE UNE RECURSIVITE
-
-						}
-						current.setPosition(tmp);// REPLACE LE PION A CA PLACE D'ORIGINE
-					} 
-					
+							
+	//						for(int i = 0; i < did.size(); i++) {
+	//							System.out.print(did.get(i) + " " + did.get(i).getColor() + ", ");
+	//						}
+	//						System.out.println(neighbor + " " + neighbor.getColor() + "  bool : " + already);
+	//						
+							if(!already) { // SI LE VOISIN N'EST PAS UNE CASE DEJA VISITEE
+								  
+								did.add(neighbor); //ON GARDE LA POSITION 
+								current.setPosition(neighbor.getPosition()); // ON DEPLACE LE PION A L'ENDROIT DU VOISIN
+	
+								primaryPion.setArray(robotsToMove); //ON INDIQUE LA NOUVELLE POSITION DU ROBOT LORS DU DEPLACEMENT DU ROBOT PRINCIPAL
+								ArrayList<String> neighborPath = this.execAStar(startCase, endCase, primaryPion); // TEST A* APRES DEPLACEMENT 
+								
+								if((currentPath.size() > neighborPath.size() || currentPath.isEmpty()) && !neighborPath.isEmpty()) { // SI PATH APRES DEPLACEMENT PLUS PETIT
+									if(this.depth == 0 || depth < this.depth) {
+										currentPath = neighborPath;  
+										neighbor.previous = caseTmp; 
+										neighbor.setNumber(depth + 1);
+										
+										this.depth = depth;
+										
+										this.allPaths = new ArrayList<>(); 
+										this.allPaths.add(neighbor);
+										while(neighbor.previous != null) {
+											allPaths.add(neighbor.previous);
+											neighbor = neighbor.previous;
+										}
+									}
+								}
+								currentPath = chose(robotsToMove, did, depth + 1, currentPath, caseTmp); // LANCE UNE RECURSIVITE
+	
+							}
+							System.out.println(did.size() + " " + depth);
+							
+							current.setPosition(tmp);// REPLACE LE PION A CA PLACE D'ORIGINE
+						} 
+						did = new ArrayList<>();
+					}
 				}
 			}
 		} catch (Exception e) {

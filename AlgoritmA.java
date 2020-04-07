@@ -131,12 +131,12 @@ public class AlgoritmA {
 			e.printStackTrace();
 		}
 		
-		for(int i = 0; i < this.grille.length; i++) {
-			for(int j = 0; j < this.grille[i].length; j++) {
-				System.out.print(this.grille[i][j].getNumber() + " ");
-			}
-			System.out.println();
-		}
+//		for(int i = 0; i < this.grille.length; i++) {
+//			for(int j = 0; j < this.grille[i].length; j++) {
+//				System.out.print(this.grille[i][j].getNumber() + " ");
+//			}
+//			System.out.println();
+//		}
 	}
 
 	
@@ -254,7 +254,7 @@ public class AlgoritmA {
 			}
 		}	
 		this.p.setPosition(this.start.getPosition());
-		//this.addAdvNumber();
+		this.addAdvNumber();
 	}
 }
 
