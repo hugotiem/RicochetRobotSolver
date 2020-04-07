@@ -17,14 +17,11 @@ public class Setup {
 		this.pions = new ArrayList<>();
 	}
 
-	// GETTER
-	public Grille getGrille() {
-		return this.grille;
-	}
-	
-	public ArrayList<Pions> getPions() {
-		return this.pions;
-	}
+	// GETTERS
+	public Grille getGrille() {return this.grille;}
+	public ArrayList<Pions> getPions() {return this.pions;}
+
+	// METHODES
 
 	// FONCTION SETUP
 	public void setup() {
@@ -33,11 +30,6 @@ public class Setup {
 		this.randomGenerator = new Random();
 		this.grille = new Grille(); 
 		this.pions = new ArrayList<>();
-		
-		//Integer [] ordre = new Integer [] {0, 1, 2, 3};; // tableau range selon l'ordre des grilles.
-
-		//List<Integer> l = Arrays.asList(ordre);
-		//java.util.Collections.shuffle(l);
 
 		/*** INITIALISATION ***/
 		

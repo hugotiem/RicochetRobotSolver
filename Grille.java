@@ -1,6 +1,7 @@
 package projetS4;
 
-public class Grille {
+public class Grille implements Cloneable {
+
 	// ATTRIBUTS
 	protected Case [][] grille;
 	private int [][] carre;
@@ -8,47 +9,27 @@ public class Grille {
 	private String objColor;
 	private int [] objPos;
 
+	// CONSTRUCTEUR
 	public Grille() {
 		this.width = this.height = 16;
 		this.grille = new Case [this.width][this.height];
 		this.carre = new int [][] {{7, 7}, {7, 8}, {8, 7}, {8, 8}};
 	}
 	
-	// GETTER 
-	public int getWidth() {
-		return this.width;
-	}
+	// GETTERS
+	public int getWidth() {return this.width;}
+	public int getHeight() {return this.height;}
+	public Case [][] getGrille(){return this.grille;}
+	public int [][] getCarre(){return this.carre;}
+	public String getObjColor() {return this.objColor;}
+	public int [] getObjPos() {return this.objPos;}
 	
-	public int getHeight() {
-		return this.height;
-	}
+	// SETTERS
+	public void setObjColor(String color){this.objColor = color;}
+	public void setObjPos(int [] pos) {this.objPos = pos;}
 	
-	public Case [][] getGrille(){
-		return this.grille;
-	}
+	// METHODES
 
-	
-	public int [][] getCarre(){
-		return this.carre;
-	}
-	
-	public String getObjColor() {
-		return this.objColor;
-	}
-	
-	public int [] getObjPos() {
-		return this.objPos;
-	}
-	
-	//SETTER
-	public void setObjColor(String color){
-		this.objColor = color;
-	}
-	
-	public void setObjPos(int [] pos) {
-		this.objPos = pos;
-	}
-	
 	/**
 	* Creer une grille de cases;
 	*/
@@ -118,5 +99,10 @@ public class Grille {
 			}
 		}
 		throw new Exception("les coordonnees [" + p[0] + ", " + p[1] + "] ne correspondent pas a des cases de la grille. ");
+	}
+	
+	@Override
+	public Grille clone() throws CloneNotSupportedException {   
+		return (Grille)super.clone();
 	}
 }

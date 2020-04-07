@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Pions {
+
+	// ATTRIBUTS
 	protected int [] position;
 	protected String color;
 	protected String type;
@@ -23,31 +25,16 @@ public class Pions {
 		this.position = new int [] {x, y};
 	}
 
-	// GETTER
-	public String getColor() {
-		return this.color;
-	}
+	// GETTERS
+	public String getColor() {return this.color;}
+	public int [] getPosition() {return this.position;}
+	public String getType(){return this.type;}
+	public Case getCase(){return new Case(this.position[0], this.position[1]);}
+	
+	// SETTERS
+	public void setPosition(int [] position){this.position = position;}
+	public void setArray(ArrayList<Pions> p) {this.pions = p;}
 
-	public int [] getPosition() {
-		return this.position;
-	}
-	
-	public String getType(){
-		return this.type;
-	}
-	public Case getCase(){
-		return new Case(this.position[0], this.position[1]);
-	}
-	
-	//SETTER
-	
-	public void setPosition(int [] position){
-		this.position = position;
-	}
-
-	public void setArray(ArrayList<Pions> p) {
-		this.pions = p;
-	}
 	/**
 	* @param p la liste des pions;
 	* @param randomGenerator l'instance de la class Random;
@@ -60,7 +47,7 @@ public class Pions {
 		}
 	}
 	
-	// FONCTIONS BOOLEANS
+	// METHODES
 	
 	/**
 	* @param pions la liste des pions;

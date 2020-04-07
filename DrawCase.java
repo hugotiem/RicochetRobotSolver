@@ -8,16 +8,19 @@ import javax.swing.JPanel;
 
 public class DrawCase extends JPanel {
 
+	// ATTRIBUTS
 	private static final long serialVersionUID = 1L;
-	
 	private Case cases;
 	private ArrayList<Pions> p;
 	
+	// CONSTRUCTEUR
 	public DrawCase(Case cases, ArrayList<Pions> p) {
 		this.cases = cases;
 		this.p = p;
 	}
 	
+	// METHODES
+
 	/**
 	 * @param color le string de la couleur voulu
 	 * @return le static Color correspondant
@@ -53,11 +56,11 @@ public class DrawCase extends JPanel {
 						case "robot":
 							// RAJOUTE UN CONTOUR NOIR AUX ROBOTS
 							g.setColor(Color.BLACK);
-							g.fillOval(1, 1, Draw.HEIGHT/16-2, Draw.WIDTH/16-2);
+							g.fillOval(5, 5, Draw.HEIGHT/16-11, Draw.WIDTH/16-11);
 							
 							// DESSINNE LES ROBOTS
 							g.setColor(this.getColor(p.getColor()));
-							g.fillOval(3, 3, Draw.HEIGHT/16-6, Draw.WIDTH/16-6);
+							g.fillOval(7, 7, Draw.HEIGHT/16-15, Draw.WIDTH/16-15);
 							
 							break;
 						case "target": // DESSINE LA CIBLE
@@ -86,6 +89,22 @@ public class DrawCase extends JPanel {
 						g.fillRect(0, 0, 5, Draw.HEIGHT/16);
 				}
 			}
+
+			// ARRONDIE LES COINS
+			// if(cases.getMurs()[0] && cases.getMurs()[1]){
+			// 	// DESSINE ROND COIN HAUT DROITE
+			// 	g.fillOval(45, 0, 13, 13);
+			// 	break;
+			// }
+			// if(cases.getMurs()[1] && cases.getMurs()[2]){
+			// 	// DESSINE ROND COIN BAS DROITE
+			// }
+			// if(cases.getMurs()[2] && cases.getMurs()[3]){
+			// 	// DESSINE ROND COIN BAS GAUCHE
+			// }
+			// if(cases.getMurs()[3] && cases.getMurs()[0]){
+			// 	// DESSINE ROND COIN HAUT GAUCHE
+			// }
 		}
 		this.repaint();
 	}

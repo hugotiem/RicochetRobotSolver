@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 public class Draw extends JFrame {
 
+	// ATTRIBUTS
 	private static final long serialVersionUID = 1L;
 	public static final int HEIGHT = 800;
 	public static final int WIDTH = 800;
@@ -21,6 +22,7 @@ public class Draw extends JFrame {
 	private String win = "";
 	private Controller controller;
 	
+	// CONSTRUCTEUR
 	public Draw(Setup setup) {
 		super("Ricochet Robot");
 		this.setup = setup;
@@ -40,14 +42,14 @@ public class Draw extends JFrame {
 	    this.addKeyListener(controller);
 	} 
 	
-	public void setWin(String s) {
-		this.win = s;
-	}
+	// SETTERS
+	public void setWin(String s) {this.win = s;}
 	
-	public Setup getSetup() {
-		return this.setup;
-	}
+	// GETTERS
+	public Setup getSetup() {return this.setup;}
 	
+	//METHODES
+
 	public void updateSetup(Setup s) {
 		s.setup();
 		this.setup = s;

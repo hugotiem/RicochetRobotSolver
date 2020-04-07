@@ -22,7 +22,8 @@
 			this.draw.setWin("   Robot selectionne : Robot " + this.robot.getColor());
 		}
 		
-		//INITIALISE LE ROBOT (PAR DEFAUT : meme couleur que la cible)
+		// SETTERS
+		// INITIALISE LE ROBOT (PAR DEFAUT : meme couleur que la cible)
 		private void setRobot() {
 			for(Pions p : this.pions) {
 				if(p.getType() == "robot" && g.getObjColor() == p.getColor())
@@ -38,6 +39,8 @@
 				}
 			}
 		}
+
+		// METHODES
 
 		@Override
 		public void keyPressed(KeyEvent e) {
