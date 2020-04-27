@@ -100,18 +100,19 @@
 		@Override
 		public void keyReleased(KeyEvent e){
 			// SI LA PARTIE N'EST PAS TERMINE
-			if(!this.gameOver) {
-				if(e.getKeyCode() == KeyEvent.VK_S) { // SI "S" PRESSEE ALORS SOLVEUR S ACTIVE
-					for(Pions p : this.pions) {
-						if(p.getType().equals("robot") && p.getColor().equals(this.g.getObjColor())) {
-							this.robot = p;
+			try {
+				if(!this.gameOver) {
+					if(e.getKeyCode() == KeyEvent.VK_S) { // SI "S" PRESSEE ALORS SOLVEUR S ACTIVE
+						for(Pions p : this.pions) {
+							if(p.getType().equals("robot") && p.getColor().equals(this.g.getObjColor())) {
+								this.robot = p;
+							}
 						}
+						Solver solver = new Solver(g, pions, robot);
+						solver.solve();
 					}
-					Solver solver = new Solver(g, pions, robot);
-					solver.solve();
-				}	
-				// JOUE SUIVANT LA TOUCHE
-				try {
+					// JOUE SUIVANT LA TOUCHE
+				
 					if(e.getKeyCode() == KeyEvent.VK_UP) {// DEPLACE VERS LE HAUT
 						this.robot.moveUp(g);
 					}
@@ -124,17 +125,17 @@
 					if(e.getKeyCode() == KeyEvent.VK_LEFT) { // DEPLACE VERS LA GAUCHE 
 						this.robot.moveLeft(g);
 					}
-				} catch (Exception ex) {
-					System.err.println();
-				}				
-				// VERIFIE SI LA PARTIE EST TERMINE
-				this.gameOver();
-				if(this.gameOver) {
-					this.draw.setWin("   BRAVO !!!       Pressez \"Entrer\" pour recommencer.");
-				}
-			} 
+					// VERIFIE SI LA PARTIE EST TERMINE
+					this.gameOver();
+					if(this.gameOver) {
+						this.draw.setWin("   BRAVO !!!       Pressez \"Entrer\" pour recommencer.");
+					}
+				} 
+				this.draw.update();
+			} catch (Exception ex) {
+				System.err.println();
+			}				
 			// ACTUALISE LA FRAME
-			this.draw.update();
 		}
 
 		@Override

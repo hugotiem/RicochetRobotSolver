@@ -8,7 +8,8 @@ public class Main{
 		
 		// AFFICHE LE JEU
 		Draw GUI = new Draw(setup);
-		GUI.draw();
+		try { GUI.draw();} 
+		catch (Exception e) { ;}
 		GUI.setLocationRelativeTo(null);
 	
 	}
